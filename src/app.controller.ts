@@ -10,4 +10,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('ip/public')
+  async getIpPublic() {
+    return { publicIp: await this.appService.getPublicIp() };
+  }
 }

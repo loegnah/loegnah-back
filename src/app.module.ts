@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -15,7 +16,7 @@ export const forRootMeta: ModuleMetadata['imports'] = [
 ];
 
 export const appModuleMeta: ModuleMetadata = {
-  imports: [...forRootMeta],
+  imports: [...forRootMeta, HttpModule],
   controllers: [AppController],
   providers: [AppService],
 };
