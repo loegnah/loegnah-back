@@ -1,12 +1,10 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module, ModuleMetadata } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { initConfig } from '#/config/configuration';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { DevModule } from '#/dev/dev.module';
 
-export const forRootMeta: ModuleMetadata['imports'] = [
+export const forRootMeta: NonNullable<ModuleMetadata['imports']> = [
   ConfigModule.forRoot({
     isGlobal: true,
     cache: true,
@@ -16,9 +14,7 @@ export const forRootMeta: ModuleMetadata['imports'] = [
 ];
 
 export const appModuleMeta: ModuleMetadata = {
-  imports: [...forRootMeta, HttpModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [...forRootMeta, DevModule],
 };
 
 @Module(appModuleMeta)

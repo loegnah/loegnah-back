@@ -12,9 +12,10 @@ importOrder:
     '<THIRD_PARTY_MODULES>',
     '',
     '^#/(.*)$',
+    '^#test/(.*)$',
     '^[./]',
     '',
     '^public/(.*)$',
   ]
-importOrderParserPlugins: [ 'typescript', 'jsx', 'decorators-legacy' ]
+importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy']
 importOrderTypeScriptVersion: '5.0.0'

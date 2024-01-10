@@ -7,6 +7,7 @@ const e2eTestConfig: Config = {
   rootDir: './test',
   moduleNameMapper: {
     '^#/(.*)$': '<rootDir>/../src/$1',
+    '^#test/(.*)$': '<rootDir>/$1',
   },
   testRegex: '.e2e-spec.ts$',
 };

@@ -5,14 +5,14 @@ import { ConfigService } from '@nestjs/config';
 import { Env } from '#/config/configuration';
 
 @Injectable()
-export class AppService {
+export class DevService {
   constructor(
     private config: ConfigService<Env, true>,
     private http: HttpService,
   ) {}
 
   getHello(): string {
-    console.log(this.config.get('port'));
+    console.log(`Port: ${this.config.get('port')}`);
     return 'Hello World!';
   }
 

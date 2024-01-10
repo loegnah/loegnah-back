@@ -5,6 +5,7 @@ const testConfig: Config = {
   rootDir: 'src',
   moduleNameMapper: {
     '^#/(.*)$': '<rootDir>/$1',
+    '^#test/(.*)$': '<rootDir>/../test/$1',
   },
   testRegex: '.*\\.spec\\.ts$',
   transform: {
