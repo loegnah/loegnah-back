@@ -16,6 +16,7 @@ const testConfig: Config = {
   testEnvironment: 'node',
   watchman: false,
   setupFiles: ['dotenv/config'],
+  forceExit: true,
 };
 
 export default testConfig;

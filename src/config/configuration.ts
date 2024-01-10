@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { z } from 'zod';
 
 const envSchema = z.object({
@@ -12,3 +13,4 @@ export const initConfig = () => {
 };
 
 export type Env = ReturnType<typeof initConfig>;
+export type ConfigSrvEnv = ConfigService<Env, true>;

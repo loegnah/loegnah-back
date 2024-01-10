@@ -10,5 +10,6 @@ const e2eTestConfig: Config = {
     '^#test/(.*)$': '<rootDir>/$1',
   },
   testRegex: '.e2e-spec.ts$',
+  forceExit: true,
 };
 export default e2eTestConfig;
