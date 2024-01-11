@@ -1,13 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
-import { makeTestingApp } from '#test/lib/test.run';
+import { makeApp } from '#/app';
 
 describe('dev API (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
-    app = await makeTestingApp({ listen: false });
+    app = await makeApp({ isTest: true });
   });
 
   it('/dev (GET)', () => {

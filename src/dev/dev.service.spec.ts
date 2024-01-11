@@ -10,19 +10,13 @@ describe('DevService', () => {
   let service: DevService;
   let config: ConfigSrvEnv;
 
-  // functions
-
   function nothing() {}
-
-  // before, after
 
   beforeEach(async () => {
     const module: TestingModule = await makeTestingModule(devModuleMeta);
     service = module.get<DevService>(DevService);
     config = module.get<ConfigSrvEnv>(ConfigService);
   });
-
-  // testing
 
   it('should be defined', () => {
     nothing();

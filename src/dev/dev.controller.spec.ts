@@ -7,18 +7,12 @@ import { makeTestingModule } from '#test/lib/test.run';
 describe('DevController', () => {
   let devCntr: DevController;
 
-  // functions
-
   function nothing() {}
-
-  // before, after
 
   beforeEach(async () => {
     const module: TestingModule = await makeTestingModule(devModuleMeta);
     devCntr = module.get<DevController>(DevController);
   });
-
-  // testing
 
   it('should return "Hello World!"', () => {
     nothing();
