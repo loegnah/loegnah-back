@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { initConfig } from '#/config/configuration';
 import { DevModule } from '#/dev/dev.module';
+import { TelegramModule } from './telegram/telegram.module';
 
 export const forRootMeta: NonNullable<ModuleMetadata['imports']> = [
   ConfigModule.forRoot({
@@ -14,7 +15,7 @@ export const forRootMeta: NonNullable<ModuleMetadata['imports']> = [
 ];
 
 export const appModuleMeta: ModuleMetadata = {
-  imports: [...forRootMeta, DevModule],
+  imports: [...forRootMeta, DevModule, TelegramModule],
 };
 
 @Module(appModuleMeta)
