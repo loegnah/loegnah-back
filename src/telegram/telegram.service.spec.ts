@@ -8,22 +8,24 @@ import { TelegramService } from '#/telegram/telegram.service';
 import { makeTestingModule } from '#test/lib/test.run';
 
 describe('TelegramService', () => {
-  let service: TelegramService;
+  let telegramSrv: TelegramService;
   let config: ConfigSrvEnv;
   let bot: TelegramBot;
 
   function makeBot(token?: string): TelegramBot {
-    return service.makeBot({ token: token ?? config.get('telegramBotToken') });
+    return telegramSrv.makeBot({
+      token: token ?? config.get('telegramBotToken'),
+    });
   }
 
   beforeEach(async () => {
     const module: TestingModule = await makeTestingModule(TelegramModuleMeta);
-    service = module.get<TelegramService>(TelegramService);
+    telegramSrv = module.get<TelegramService>(TelegramService);
     config = module.get<ConfigSrvEnv>(ConfigService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(telegramSrv).toBeDefined();
   });
 
   it('makeBot', () => {

@@ -10,9 +10,4 @@ export class DevController {
   getHello() {
     return { message: this.devSrv.getHello() };
   }
-
-  @Get('ip/public')
-  async getIpPublic() {
-    return { publicIp: await this.devSrv.getPublicIp() };
-  }
 }
