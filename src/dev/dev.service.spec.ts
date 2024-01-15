@@ -14,8 +14,8 @@ describe('DevService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await makeTestingModule(devModuleMeta);
-    devSrv = module.get<DevService>(DevService);
-    config = module.get<ConfigSrvEnv>(ConfigService);
+    devSrv = module.get(DevService);
+    config = module.get(ConfigService);
   });
 
   it('should be defined', () => {
