@@ -12,6 +12,8 @@ const logger = new Logger('Infra');
 export class InfraService implements OnModuleInit {
   private readonly PUBLIC_IP_API_URL =
     this.config.get<string>('publicIpApiUrl');
+  private readonly BOT_NAME = 'loegnah-infra';
+
   private publicIp: string;
   private bot: TelegramBot;
 
@@ -27,8 +29,9 @@ export class InfraService implements OnModuleInit {
   }
 
   private async initTelegramBot() {
-    this.bot = this.telegramService.makeBot({
+    this.bot = await this.telegramService.makeBot({
       token: this.config.get('telegramBotToken'),
+      name: this.BOT_NAME,
     });
     await this.setTelegramBotListener(this.bot);
   }
