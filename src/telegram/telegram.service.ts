@@ -10,32 +10,39 @@ const logger = new Logger('Telegram');
 export class TelegramService {
   constructor(private prisma: PrismaService) {}
 
-  async makeBot(params: { token: string; name: string }): Promise<TelegramBot> {
-    const { token, name } = params;
-    const bot = new TelegramBot(token, {
+  async makeBot(params: { token: string }): Promise<TelegramBot> {
+    const { token } = params;
+    return new TelegramBot(token, {
       polling: true,
     });
-    if (!(await this.isStoreBot(name))) {
-      const chatId = await this.waitStartCmdToGetChatId(bot);
-      await this.createBot({ name, chatId });
-    }
-    return bot;
   }
 
-  private async isStoreBot(name: string): Promise<boolean> {
+  async getOrCreateBotInfo(params: {
+    name: string;
+    bot: TelegramBot;
+  }): Promise<BotTelegram> {
+    const { name, bot } = params;
+    let botInfo = await this.findBot(name);
+    if (!botInfo) {
+      const chatId = await this.waitStartCmdToGetChatId(bot);
+      botInfo = await this.createBot({ name, chatId });
+    }
+    return botInfo;
+  }
+
+  private async findBot(name: string): Promise<BotTelegram | null> {
     logger.verbose('isStoreBot', name);
-    const bot = await this.prisma.botTelegram.findUnique({
+    return this.prisma.botTelegram.findUnique({
       where: {
         name,
       },
     });
-    return !!bot;
   }
 
   private async waitStartCmdToGetChatId(
     bot: TelegramBot,
   ): Promise<BotTelegram['chatId']> {
-    logger.verbose('waitStartCmdToGetChatId');
+    logger.verbose('waiting start cmd to get chat id....');
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(
         () => {
@@ -44,6 +51,7 @@ export class TelegramService {
         1000 * 60 * 5,
       );
       bot.onText(/\/start/, async (msg) => {
+        logger.verbose(`Done. (chatId: ${msg.chat.id})`);
         clearTimeout(timeout);
         resolve(BigInt(msg.chat.id));
       });
