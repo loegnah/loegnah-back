@@ -17,9 +17,14 @@ export async function makeTestingApp({ listen = false }: { listen?: boolean }) {
 
 export async function makeTestingModule(
   moduleMetaData: ModuleMetadata,
+  doInit = true,
 ): Promise<TestingModule> {
-  return await Test.createTestingModule({
+  const module = await Test.createTestingModule({
     ...moduleMetaData,
     imports: [...forRootMeta, ...(moduleMetaData.imports ?? [])],
   }).compile();
+  if (doInit) {
+    await module.init();
+  }
+  return module;
 }
