@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { BotTelegram } from '@prisma/client';
 import TelegramBot from 'node-telegram-bot-api';
 
 import { Env } from '#/config/configuration';
@@ -12,8 +13,11 @@ const logger = new Logger('Infra');
 export class InfraService implements OnModuleInit {
   private readonly PUBLIC_IP_API_URL =
     this.config.get<string>('publicIpApiUrl');
+  private readonly BOT_NAME = 'loegnah-infra';
+
   private publicIp: string;
   private bot: TelegramBot;
+  private botInfo: BotTelegram;
 
   constructor(
     private http: HttpService,
@@ -27,15 +31,18 @@ export class InfraService implements OnModuleInit {
   }
 
   private async initTelegramBot() {
-    this.bot = this.telegramService.makeBot({
+    this.bot = await this.telegramService.makeBot({
       token: this.config.get('telegramBotToken'),
+    });
+    this.botInfo = await this.telegramService.getOrCreateBotInfo({
+      name: this.BOT_NAME,
+      bot: this.bot,
     });
     await this.setTelegramBotListener(this.bot);
   }
 
   private async setTelegramBotListener(bot: TelegramBot) {
-    bot.onText(/\/show (.+)/, async (msg, match) => {
-      const chatId = msg.chat.id;
+    bot.onText(/\/show (.+)/, async (_msg, match) => {
       if (!match) return;
       const what = match[1];
       let resMsg: string;
@@ -44,7 +51,7 @@ export class InfraService implements OnModuleInit {
       } else {
         resMsg = 'wrong command';
       }
-      await bot.sendMessage(chatId, resMsg);
+      await bot.sendMessage(Number(this.botInfo.chatId), resMsg);
     });
   }
 
@@ -61,10 +68,10 @@ export class InfraService implements OnModuleInit {
     if (!this.publicIp !== curPublicIp) {
       this.onPublicIpChanged({ curPublicIp });
     }
-    return ret.data.trim();
+    return curPublicIp;
   }
 
-  private async onPublicIpChanged({ curPublicIp }: { curPublicIp: string }) {
+  private onPublicIpChanged({ curPublicIp }: { curPublicIp: string }) {
     this.publicIp = curPublicIp;
   }
 }

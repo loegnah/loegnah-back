@@ -12,3 +12,12 @@ model Nothing {
 
   @@index([id])
 }
+
+model BotTelegram {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  chatId BigInt @unique
+
+  @@index([name])
+  @@index([chatId])
+}

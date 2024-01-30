@@ -10,7 +10,7 @@ export async function makeApp({
   isTest = false,
 }: {
   isTest?: boolean;
-}): Promise<INestApplication<any>> {
+}): Promise<INestApplication> {
   const app = await (isTest ? createTestingApp() : createApp());
   await app.init();
   return app;
